@@ -7,14 +7,15 @@
 GLWidget::GLWidget(Helper *helper, QWidget *parent)
     : QOpenGLWidget(parent), helper(helper)
 {
-     m_begin = std::chrono::high_resolution_clock::now();
-    setFixedSize(1800,1000);
+    m_begin = std::chrono::high_resolution_clock::now();
+    setMinimumSize(520,130);
+    setMaximumSize(1640,400);
     setAutoFillBackground(false);
 }
 
 void GLWidget::animate()
 {
-    m_elapsed = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now()-m_begin).count();
+    m_elapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now()-m_begin).count();
     update();
 }
 

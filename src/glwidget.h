@@ -4,6 +4,8 @@
 #include <QOpenGLWidget>
 #include <chrono>
 #include <ctime>
+#include <iostream>
+#include <QMouseEvent>
 
 class Helper;
 
@@ -14,8 +16,16 @@ class GLWidget : public QOpenGLWidget
 public:
     GLWidget(Helper *helper, QWidget *parent);
 
+    virtual void mousePressEvent(QMouseEvent * event)
+    {
+        std::cout<<"Mouse Pressed on : ("<<event->x()<<","<<event->y()<<")"<<std::endl;
+    };
+
+
+
 public slots:
     void animate();
+
 
 protected:
     void paintEvent(QPaintEvent *event) override;

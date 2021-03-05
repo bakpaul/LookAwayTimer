@@ -16,10 +16,11 @@ public:
     void paint(QPainter *painter, QPaintEvent *event, long long elapsed);
 
 private:
-    QBrush background;
-    QBrush circleBrush;
+
+    QBrush backgroundBrush;
+    QBrush frontBrush;
     QFont textFont;
-    QPen circlePen;
+    QPen m_buttonPen;
     QPen textPen;
     QPen m_linePen;
     QSoundEffect tic;
