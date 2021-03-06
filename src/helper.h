@@ -6,6 +6,8 @@
 #include <QPen>
 #include <QWidget>
 #include <QSoundEffect>
+#include "VecXT.h"
+
 
 class Helper
 {
@@ -13,7 +15,7 @@ public:
     Helper(double frequency,double);
 
 public:
-    void paint(QPainter *painter, QPaintEvent *event, long long elapsed);
+    void paint(QPainter *painter, QPaintEvent *event, long long elapsed, std::vector<Vec2T<Vec2i>> &boudingBox);
 
 private:
 

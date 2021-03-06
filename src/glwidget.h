@@ -6,6 +6,7 @@
 #include <ctime>
 #include <iostream>
 #include <QMouseEvent>
+#include "VecXT.h"
 
 class Helper;
 
@@ -36,6 +37,8 @@ private:
     std::chrono::time_point<std::chrono::high_resolution_clock> m_begin;
 
     long long m_elapsed;
+
+    std::vector<Vec2T<Vec2i>> m_boudingBox;
 
 };
 

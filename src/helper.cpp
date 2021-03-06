@@ -26,7 +26,7 @@ Helper::Helper(double frequency,double completeTime)
 
 }
 
-void Helper::paint(QPainter *painter, QPaintEvent *event, long long _elapsed)
+void Helper::paint(QPainter *painter, QPaintEvent *event, long long _elapsed, std::vector<Vec2T<Vec2i>> &boudingBox)
 {
     double height;
     double fact = (( (double) event->rect().width() ) / ((double) event->rect().height())) / RATIO;
@@ -38,6 +38,8 @@ void Helper::paint(QPainter *painter, QPaintEvent *event, long long _elapsed)
 
     auto backgroudColor= QColor(160,205,220);
     auto frontColor= QColor(50,50,50);
+
+    boudingBox.resize(3,Vec2T<Vec2i>(Vec2i(0)));
 
 
     backgroundBrush = QBrush(backgroudColor);
@@ -56,12 +58,17 @@ void Helper::paint(QPainter *painter, QPaintEvent *event, long long _elapsed)
     painter->drawRoundedRect(QRectF(0,0, height*(1-2*BORDERS),height*(1-2*BORDERS)),
                              height/5.0,
                              height/5.0);
+    boudingBox[0][0] = Vec2i(centerx + height*BORDERS ,centery + height*BORDERS);
+    boudingBox[0][1] = Vec2i(centerx + height*BORDERS + height*(1-2*BORDERS) ,centery + height*BORDERS + height*(1-2*BORDERS));
+
+    std::cout<<"boudingBox[0] : "<<boudingBox[0]<<std::endl;
+
     painter->setPen(m_linePen);
     painter->setPen(QPen(backgroudColor));
     textFont.setPixelSize(height);
     painter->setFont(textFont);
     char s_time[10];
-    sprintf(s_time,"R\0") ;
+    sprintf(s_time,"L\0") ; //L when look away, R when want to restart
     QString s_temp(s_time);
     painter->drawText(QRectF(0,0, height*(1-2*BORDERS),height*(1-2.5*BORDERS)), Qt::AlignCenter, s_temp);
 
