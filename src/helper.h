@@ -16,17 +16,16 @@ public:
 
 public:
     void paint(QPainter *painter, QPaintEvent *event, long long elapsed, std::vector<Vec2T<Vec2i>> &boudingBox);
+    void drawButton(QPainter *painter, int width, int height, int xRadius, int yRadius, std::string name, int xNameOffset, int yNameOffset, double scalingFactor);
 
 private:
 
-    QBrush backgroundBrush;
-    QBrush frontBrush;
-    QFont textFont;
+    QColor m_backGroundColor;
+    QColor m_frontColor;
+    QFont m_textFont;
     QPen m_buttonPen;
-    QPen textPen;
-    QPen m_linePen;
+    QPen m_textPen;
     QSoundEffect tic;
-    QSoundEffect tac;
     long m_period;
     bool m_state;
     long m_elapsed;

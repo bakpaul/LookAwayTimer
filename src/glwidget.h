@@ -17,12 +17,9 @@ class GLWidget : public QOpenGLWidget
 public:
     GLWidget(Helper *helper, QWidget *parent);
 
-    virtual void mousePressEvent(QMouseEvent * event)
-    {
-        std::cout<<"Mouse Pressed on : ("<<event->x()<<","<<event->y()<<")"<<std::endl;
-    };
+    virtual void mousePressEvent(QMouseEvent * event);
 
-
+    static bool isInBB(Vec2i, Vec2T<Vec2i>);
 
 public slots:
     void animate();
@@ -32,13 +29,19 @@ protected:
     void paintEvent(QPaintEvent *event) override;
 
 private:
+    int buttonPressesd(Vec2i) const;
+
     Helper *helper;
 
     std::chrono::time_point<std::chrono::high_resolution_clock> m_begin;
+    std::vector<std::chrono::time_point<std::chrono::high_resolution_clock> > m_pausingTime;
+    long getCurrTime();
 
     long long m_elapsed;
 
     std::vector<Vec2T<Vec2i>> m_boudingBox;
+
+
 
 };
 

@@ -2,8 +2,8 @@
 // Created by paul on 06/03/2021.
 //
 
-#ifndef LOOKAWAYTIMER_VEC2T_H
-#define LOOKAWAYTIMER_VEC2T_H
+#ifndef VECXT_H
+#define VECXT_H
 
 #include <vector>
 #include <stdexcept>
@@ -30,6 +30,8 @@ public:
 
     ~VecXT() = default;
 
+
+    //Operators
     VecXT& operator =(const VecXT<T,X> &second)
     {
         this->m_data = second.m_data;
@@ -44,24 +46,48 @@ public:
             throw std::runtime_error("Vector is smaller than id");
     }
 
-
-    VecXT<T,X> operator +(const VecXT<T,X> &second)
+    //Additions
+    template <class T2>
+    VecXT<T,X> operator +( const VecXT<T2,X>& second) const
     {
         VecXT<T,X> returnVec;
         for(unsigned i=0; i<X; i++)
-            returnVec[i] = m_data[i] + second[i];
+            returnVec[i] = m_data[i] + second.m_data[i];
         return returnVec;
     }
 
-    VecXT<T,X> operator -(const VecXT<T,X> &second)
+    template <class T2>
+    VecXT<T,X>& operator +=( const VecXT<T2,X>& second)
+    {
+        for(unsigned i=0; i<X; i++)
+            m_data[i] += second.m_data[i];
+        return *this;
+    }
+
+
+
+    //Substractions
+    template <class T2>
+    VecXT<T,X> operator -( const VecXT<T2,X>& second) const
     {
         VecXT<T,X> returnVec;
         for(unsigned i=0; i<X; i++)
-            returnVec[i] = m_data[i] + second[i];
+            returnVec[i] = m_data[i] - second.m_data[i];
         return returnVec;
     }
 
-    VecXT<T,X> operator *(const double &fact)
+    template <class T2>
+    VecXT<T,X>& operator -=( const VecXT<T2,X>& second)
+    {
+        for(unsigned i=0; i<X; i++)
+            m_data[i] -= second.m_data[i];
+        return *this;
+    }
+
+
+    //Multiplications
+    template <class T2>
+    VecXT<T,X> operator *(const T2 &fact) const
     {
         VecXT<T,X> returnVec;
         for(unsigned i=0; i<X; i++)
@@ -69,14 +95,98 @@ public:
         return returnVec;
     }
 
-    VecXT<T,X> operator *(const int &fact)
+    template <class T2>
+    VecXT<T,X>& operator *=(const T2 &fact)
+    {
+        for(unsigned i=0; i<X; i++)
+            m_data[i] *= fact;
+        return *this;
+    }
+
+    template <class T2>
+    friend VecXT<T,X> operator *(const T2 &fact, const VecXT<T,X> _data)
     {
         VecXT<T,X> returnVec;
         for(unsigned i=0; i<X; i++)
-            returnVec[i] = m_data[i] * fact;
+            returnVec[i] = _data[i] * fact;
         return returnVec;
     }
 
+    //Divisions
+    template <class T2>
+    VecXT<T,X> operator /(const T2 &fact) const
+    {
+        VecXT<T,X> returnVec;
+        for(unsigned i=0; i<X; i++)
+            returnVec[i] = m_data[i] / fact;
+        return returnVec;
+    }
+
+    template <class T2>
+    VecXT<T,X> operator /=(const T2 &fact)
+    {
+        for(unsigned i=0; i<X; i++)
+            m_data[i] /= fact;
+        return *this;
+    }
+
+    //Comparisons
+    template <class T2>
+    bool operator >(const T2 &fact) const
+    {
+        bool bo = true;
+        for(unsigned i=0; i<X; i++)
+            bo = bo & (m_data[i] > fact);
+        return bo;
+    }
+
+    template <class T2>
+    bool operator <(const T2 &fact) const
+    {
+        bool bo = true;
+        for(unsigned i=0; i<X; i++)
+            bo = bo & (m_data[i] < fact);
+        return bo;
+    }
+
+    template <class T2>
+    bool operator >=(const T2 &fact) const
+    {
+        bool bo = true;
+        for(unsigned i=0; i<X; i++)
+            bo = bo & (m_data[i] > fact);
+        return bo;
+    }
+
+    template <class T2>
+    bool operator <=(const T2 &fact) const
+    {
+        bool bo = true;
+        for(unsigned i=0; i<X; i++)
+            bo = bo & (m_data[i] < fact);
+        return bo;
+    }
+
+    template <class T2>
+    bool operator ==(const VecXT<T2,X> &fact) const
+    {
+        bool bo = true;
+        for(unsigned i=0; i<X; i++)
+            bo = bo & (m_data[i] == fact.m_data[i]);
+        return bo;
+    }
+
+    template <class T2>
+    bool operator !=(const VecXT<T2,X> &fact) const
+    {
+        bool bo = true;
+        for(unsigned i=0; i<X; i++)
+            bo = bo & (m_data[i] != fact.m_data[i]);
+        return bo;
+    }
+
+
+    //Stream
     friend std::ostream& operator<<(std::ostream& os, const VecXT<T,X>& vec)
     {
         os<<"(";
@@ -88,6 +198,15 @@ public:
         }
         os<<")";
         return os;
+    }
+
+    //Utils
+    T norm() const
+    {
+        T acc = 0.0;
+        for(unsigned i=0; i<X; i++)
+            acc += m_data[i];
+        return acc/0.0;
     }
 
 protected:
@@ -145,7 +264,7 @@ public:
 
     Vec4T(T first, T second, T third, T fourth)
     {
-        this->m_data.resize(3);
+        this->m_data.resize(4);
         this->m_data[0] = first;
         this->m_data[1] = second;
         this->m_data[2] = third;
@@ -173,4 +292,4 @@ typedef Vec4T<int>      Vec4i;
 typedef Vec4T<long>     Vec4l;
 
 
-#endif //LOOKAWAYTIMER_VEC2T_H
+#endif
